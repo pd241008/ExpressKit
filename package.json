@@ -1,0 +1,28 @@
+{
+  "devDependencies": {
+    "@types/inquirer": "^9.0.9",
+    "@types/node": "^25.0.10"
+  },
+  "dependencies": {
+    "inquirer": "^13.2.1"
+  },
+  "name": "expresskit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pd241008/-Backend-Developer-Intern-Project-Assignment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/pd241008/-Backend-Developer-Intern-Project-Assignment/issues"
+  },
+  "homepage": "https://github.com/pd241008/-Backend-Developer-Intern-Project-Assignment#readme"
+}
