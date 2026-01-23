@@ -1,7 +1,8 @@
 {
   "devDependencies": {
     "@types/inquirer": "^9.0.9",
-    "@types/node": "^25.0.10"
+    "@types/node": "^25.0.10",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "inquirer": "^13.2.1"
@@ -11,7 +12,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "expresskit": "dist/index.js"
   },
   "repository": {
     "type": "git",
