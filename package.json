@@ -10,6 +10,9 @@
   },
   "name": "@pd241008/expresskit",
   "version": "1.3.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
