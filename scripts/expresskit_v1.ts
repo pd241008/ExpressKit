@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "fs";
 import path from "path";
-import { execSync } from "child_process";
+import { execSync, spawn } from "child_process";
 import inquirer from "inquirer";
 
 /* ----------------------------------
@@ -39,6 +39,23 @@ function startLoader(text: string) {
   };
 }
 
+/* ----------------------------------
+   Async Command Helper
+   (Fixes the loader freeze bug)
+----------------------------------- */
+function runCommand(command: string, cwd: string) {
+  return new Promise<void>((resolve, reject) => {
+    const child = spawn(command, { cwd, shell: true, stdio: "ignore" });
+
+    child.on("close", (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`Command failed: ${command}`));
+    });
+
+    child.on("error", reject);
+  });
+}
+
 export async function run() {
   const args = process.argv.slice(2);
 
@@ -71,10 +88,10 @@ Usage:
     },
   ]);
 
-  createProject(projectName, language);
+  await createProject(projectName, language);
 }
 
-function createProject(projectName: string, language: "ts" | "js") {
+async function createProject(projectName: string, language: "ts" | "js") {
   const root = path.join(process.cwd(), projectName);
   const isTS = language === "ts";
   const ext = isTS ? "ts" : "js";
@@ -321,52 +338,56 @@ export const health_middleware = (
   log.info("Installing dependencies");
   const stopLoader = startLoader("Installing packages...");
 
-  execSync("npm init -y", { cwd: root, stdio: "ignore" });
+  // We use runCommand (async) instead of execSync here to keep the loader animating
+  try {
+    await runCommand("npm init -y", root);
 
-  const pkgPath = path.join(root, "package.json");
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
+    const pkgPath = path.join(root, "package.json");
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
 
-  pkg.scripts = {
-    dev: isTS ? "nodemon src/server.ts" : "nodemon src/server.js",
-    start: isTS ? "node dist/server.js" : "node src/server.js",
-    ...(isTS ? { build: "tsc" } : {}),
-  };
+    pkg.scripts = {
+      dev: isTS ? "nodemon src/server.ts" : "nodemon src/server.js",
+      start: isTS ? "node dist/server.js" : "node src/server.js",
+      ...(isTS ? { build: "tsc" } : {}),
+    };
 
-  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
 
-  execSync("npm install express cors dotenv morgan --no-fund --no-audit", {
-    cwd: root,
-    stdio: "ignore",
-  });
-
-  execSync("npm install -D nodemon --no-fund --no-audit", {
-    cwd: root,
-    stdio: "ignore",
-  });
-
-  if (isTS) {
-    execSync(
-      "npm install -D typescript ts-node @types/node @types/express @types/cors @types/morgan --no-fund --no-audit",
-      { cwd: root, stdio: "ignore" },
+    await runCommand(
+      "npm install express cors dotenv morgan --no-fund --no-audit",
+      root,
     );
 
-    fs.writeFileSync(
-      path.join(root, "tsconfig.json"),
-      JSON.stringify(
-        {
-          compilerOptions: {
-            target: "ES2020",
-            module: "CommonJS",
-            rootDir: "src",
-            outDir: "dist",
-            strict: true,
-            esModuleInterop: true,
+    await runCommand("npm install -D nodemon --no-fund --no-audit", root);
+
+    if (isTS) {
+      await runCommand(
+        "npm install -D typescript ts-node @types/node @types/express @types/cors @types/morgan --no-fund --no-audit",
+        root,
+      );
+
+      fs.writeFileSync(
+        path.join(root, "tsconfig.json"),
+        JSON.stringify(
+          {
+            compilerOptions: {
+              target: "ES2020",
+              module: "CommonJS",
+              rootDir: "src",
+              outDir: "dist",
+              strict: true,
+              esModuleInterop: true,
+            },
           },
-        },
-        null,
-        2,
-      ),
-    );
+          null,
+          2,
+        ),
+      );
+    }
+  } catch (err) {
+    stopLoader();
+    log.error("Installation failed");
+    process.exit(1);
   }
 
   stopLoader();

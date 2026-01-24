@@ -38,6 +38,22 @@ function startLoader(text) {
         process.stdout.write("\r\x1b[K"); // ← important for PowerShell
     };
 }
+/* ----------------------------------
+   Async Command Helper
+   (Fixes the loader freeze bug)
+----------------------------------- */
+function runCommand(command, cwd) {
+    return new Promise((resolve, reject) => {
+        const child = (0, child_process_1.spawn)(command, { cwd, shell: true, stdio: "ignore" });
+        child.on("close", (code) => {
+            if (code === 0)
+                resolve();
+            else
+                reject(new Error(`Command failed: ${command}`));
+        });
+        child.on("error", reject);
+    });
+}
 async function run() {
     const args = process.argv.slice(2);
     if (args[0] !== "init") {
@@ -67,9 +83,9 @@ Usage:
             default: "ts",
         },
     ]);
-    createProject(projectName, language);
+    await createProject(projectName, language);
 }
-function createProject(projectName, language) {
+async function createProject(projectName, language) {
     const root = path_1.default.join(process.cwd(), projectName);
     const isTS = language === "ts";
     const ext = isTS ? "ts" : "js";
@@ -263,35 +279,37 @@ export const health_middleware = (
     ----------------------------------- */
     log.info("Installing dependencies");
     const stopLoader = startLoader("Installing packages...");
-    (0, child_process_1.execSync)("npm init -y", { cwd: root, stdio: "ignore" });
-    const pkgPath = path_1.default.join(root, "package.json");
-    const pkg = JSON.parse(fs_1.default.readFileSync(pkgPath, "utf-8"));
-    pkg.scripts = {
-        dev: isTS ? "nodemon src/server.ts" : "nodemon src/server.js",
-        start: isTS ? "node dist/server.js" : "node src/server.js",
-        ...(isTS ? { build: "tsc" } : {}),
-    };
-    fs_1.default.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
-    (0, child_process_1.execSync)("npm install express cors dotenv morgan --no-fund --no-audit", {
-        cwd: root,
-        stdio: "ignore",
-    });
-    (0, child_process_1.execSync)("npm install -D nodemon --no-fund --no-audit", {
-        cwd: root,
-        stdio: "ignore",
-    });
-    if (isTS) {
-        (0, child_process_1.execSync)("npm install -D typescript ts-node @types/node @types/express @types/cors @types/morgan --no-fund --no-audit", { cwd: root, stdio: "ignore" });
-        fs_1.default.writeFileSync(path_1.default.join(root, "tsconfig.json"), JSON.stringify({
-            compilerOptions: {
-                target: "ES2020",
-                module: "CommonJS",
-                rootDir: "src",
-                outDir: "dist",
-                strict: true,
-                esModuleInterop: true,
-            },
-        }, null, 2));
+    // We use runCommand (async) instead of execSync here to keep the loader animating
+    try {
+        await runCommand("npm init -y", root);
+        const pkgPath = path_1.default.join(root, "package.json");
+        const pkg = JSON.parse(fs_1.default.readFileSync(pkgPath, "utf-8"));
+        pkg.scripts = {
+            dev: isTS ? "nodemon src/server.ts" : "nodemon src/server.js",
+            start: isTS ? "node dist/server.js" : "node src/server.js",
+            ...(isTS ? { build: "tsc" } : {}),
+        };
+        fs_1.default.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
+        await runCommand("npm install express cors dotenv morgan --no-fund --no-audit", root);
+        await runCommand("npm install -D nodemon --no-fund --no-audit", root);
+        if (isTS) {
+            await runCommand("npm install -D typescript ts-node @types/node @types/express @types/cors @types/morgan --no-fund --no-audit", root);
+            fs_1.default.writeFileSync(path_1.default.join(root, "tsconfig.json"), JSON.stringify({
+                compilerOptions: {
+                    target: "ES2020",
+                    module: "CommonJS",
+                    rootDir: "src",
+                    outDir: "dist",
+                    strict: true,
+                    esModuleInterop: true,
+                },
+            }, null, 2));
+        }
+    }
+    catch (err) {
+        stopLoader();
+        log.error("Installation failed");
+        process.exit(1);
     }
     stopLoader();
     log.success("Dependencies installed");
