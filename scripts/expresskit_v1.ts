@@ -49,29 +49,35 @@ function createProject(projectName: string, language: "ts" | "js") {
     return;
   }
 
+  console.log("🚀 Creating ExpressKit project...");
+
+  // --------------------
+  // FOLDERS (STANDARD)
+  // --------------------
   const dirs = [
     "src/config",
-    "src/routes",
     "src/controllers",
     "src/services",
-    "src/models",
     "src/middleware",
+    "src/models",
     "src/utils",
+    "src/routes/health",
   ];
-
-  console.log("🚀 Creating ExpressKit project...");
 
   fs.mkdirSync(root, { recursive: true });
   dirs.forEach((dir) =>
     fs.mkdirSync(path.join(root, dir), { recursive: true }),
   );
 
-  // app file
+  // --------------------
+  // app.ts
+  // --------------------
   fs.writeFileSync(
     path.join(root, `src/app.${ext}`),
     `import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import healthRoutes from "./routes/health/route";
 
 const app = express();
 
@@ -79,15 +85,19 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.use("/api/health", healthRoutes);
+
 export default app;
 `,
   );
 
-  // server file
+  // --------------------
+  // server.ts (FIXED)
+  // --------------------
   fs.writeFileSync(
     path.join(root, `src/server.${ext}`),
     `import dotenv from "dotenv";
-import app from "./app.${ext}";
+import app from "./app";
 
 dotenv.config();
 
@@ -99,42 +109,91 @@ app.listen(PORT, () => {
 `,
   );
 
-  // health route
+  // --------------------
+  // ROUTE
+  // --------------------
   fs.writeFileSync(
-    path.join(root, `src/routes/health.routes.${ext}`),
+    path.join(root, `src/routes/health/route.${ext}`),
     `import { Router } from "express";
+import { health_controller } from "../../controllers/health_controller";
 
 const router = Router();
 
-router.get("/health", (_req, res) => {
-  res.json({ status: "ok" });
-});
+router.get("/", health_controller);
 
 export default router;
 `,
   );
 
-  // env + git
+  // --------------------
+  // CONTROLLER
+  // --------------------
+  fs.writeFileSync(
+    path.join(root, `src/controllers/health_controller.${ext}`),
+    `import { Request, Response } from "express";
+import { health_service } from "../services/health_service";
+
+export const health_controller = (_req: Request, res: Response) => {
+  const result = health_service();
+  res.json(result);
+};
+`,
+  );
+
+  // --------------------
+  // SERVICE
+  // --------------------
+  fs.writeFileSync(
+    path.join(root, `src/services/health_service.${ext}`),
+    `export const health_service = () => {
+  return { status: "ok" };
+};
+`,
+  );
+
+  // --------------------
+  // MIDDLEWARE (READY)
+  // --------------------
+  fs.writeFileSync(
+    path.join(root, `src/middleware/health_middleware.${ext}`),
+    `import { Request, Response, NextFunction } from "express";
+
+export const health_middleware = (
+  _req: Request,
+  _res: Response,
+  next: NextFunction
+) => {
+  next();
+};
+`,
+  );
+
+  // --------------------
+  // ENV & GIT
+  // --------------------
   fs.writeFileSync(path.join(root, ".env"), "PORT=5000\n");
   fs.writeFileSync(path.join(root, ".env.example"), "PORT=5000\n");
   fs.writeFileSync(path.join(root, ".gitignore"), "node_modules\n.env\n");
 
-  // init npm
+  // --------------------
+  // NPM INIT
+  // --------------------
   execSync("npm init -y", { cwd: root, stdio: "inherit" });
 
-  // update package.json scripts
   const pkgPath = path.join(root, "package.json");
   const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
 
   pkg.scripts = {
     dev: isTS ? "nodemon src/server.ts" : "nodemon src/server.js",
+    build: isTS ? "tsc" : undefined,
     start: isTS ? "node dist/server.js" : "node src/server.js",
-    ...(isTS ? { build: "tsc" } : {}),
   };
 
   fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
 
-  // dependencies
+  // --------------------
+  // DEPENDENCIES
+  // --------------------
   execSync("npm install express cors dotenv morgan", {
     cwd: root,
     stdio: "inherit",
@@ -142,7 +201,6 @@ export default router;
 
   execSync("npm install -D nodemon", { cwd: root, stdio: "inherit" });
 
-  // typescript setup
   if (isTS) {
     execSync(
       "npm install -D typescript ts-node @types/node @types/express @types/cors @types/morgan",
