@@ -1,0 +1,16 @@
+# Source
+scripts
+*.ts
+
+# Apps
+frontend
+backend
+
+# Config
+tsconfig.json
+package-lock.json
+
+# Misc
+Dockerfile
+docker-compose.yml
+.env

@@ -8,7 +8,7 @@
     "inquirer": "^13.2.1",
     "ora": "^9.1.0"
   },
-  "name": "expresskit",
+  "name": "@pd241008/expresskit",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -21,14 +21,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pd241008/-Backend-Developer-Intern-Project-Assignment.git"
+    "url": "git+https://github.com/pd241008/ExpressKit.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/pd241008/-Backend-Developer-Intern-Project-Assignment/issues"
+    "url": "https://github.com/pd241008/ExpressKit/issues"
   },
-  "homepage": "https://github.com/pd241008/-Backend-Developer-Intern-Project-Assignment#readme"
+  "homepage": "https://github.com/pd241008/ExpressKit#readme"
 }
