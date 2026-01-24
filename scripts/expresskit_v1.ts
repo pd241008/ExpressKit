@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "fs";
 import path from "path";
-import { execSync, spawn } from "child_process";
+import { spawn } from "child_process";
 import inquirer from "inquirer";
 
 /* ----------------------------------
