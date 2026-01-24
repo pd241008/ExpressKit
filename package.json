@@ -1,37 +1,37 @@
 {
-  "devDependencies": {
-    "@types/inquirer": "^9.0.9",
-    "@types/node": "^25.0.10",
-    "typescript": "^5.9.3"
+  "name": "@pd241008/expresskit",
+  "version": "1.3.1",
+  "description": "Opinionated Express backend starter",
+  "main": "dist/index.js",
+  "bin": {
+    "expresskit": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc"
   },
   "dependencies": {
     "inquirer": "^13.2.1",
     "ora": "^9.1.0"
   },
-  "name": "@pd241008/expresskit",
-  "version": "1.3.0",
-  "publishConfig": {
-    "access": "public"
-  },
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "bin": {
-    "expresskit": "dist/index.js"
+  "devDependencies": {
+    "@types/inquirer": "^9.0.9",
+    "@types/node": "^25.0.10",
+    "typescript": "^5.9.3"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pd241008/ExpressKit.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/pd241008/ExpressKit/issues"
   },
-  "homepage": "https://github.com/pd241008/ExpressKit#readme"
+  "homepage": "https://github.com/pd241008/ExpressKit#readme",
+  "license": "ISC",
+  "type": "commonjs"
 }
