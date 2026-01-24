@@ -8,7 +8,7 @@
     "inquirer": "^13.2.1",
     "ora": "^9.1.0"
   },
-  "name": "@pd241008/expresskit",
+  "name": "expresskit",
   "version": "1.1.0",
   "description": "",
   "main": "index.js",
@@ -22,9 +22,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pd241008/ExpressKit.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [],
   "author": "",
