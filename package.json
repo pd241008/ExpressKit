@@ -9,7 +9,7 @@
     "ora": "^9.1.0"
   },
   "name": "@pd241008/expresskit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
