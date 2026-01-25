@@ -31,6 +31,8 @@ npx @pd241008/expresskit init
 Global Install (Optional)
 npm install -g @pd241008/expresskit
 expresskit init
+````
+
 🎯 Why ExpressKit?
 Every new Express project usually suffers from Decision Fatigue:
 
@@ -51,6 +53,7 @@ Config	process.env chaos	Centralized Config
 Language	JS / manual TS	TypeScript-first
 Error Handling	try/catch everywhere	Global Error Layer
 🏗️ High-Level Architecture
+```
 ExpressKit enforces a strict unidirectional flow, making your backend predictable and scalable.
 
 Request
@@ -64,6 +67,7 @@ Service (Business Logic Layer)
 Data / External APIs
   ↓
 Standardized Response
+```
 📁 Project Structure
 When you initialize a project, ExpressKit generates:
 
@@ -78,6 +82,8 @@ src/
 ├─ models/            # Database models
 ├─ utils/             # Helper utilities
 └─ types/             # Shared TypeScript types
+
+
 🛠️ Features
 TypeScript Native – Built for type safety from day one
 
@@ -128,12 +134,12 @@ Open a Pull Request
 
 👨‍💻 Author
 Prathmesh Desai
-
+```
 GitHub: https://github.com/pd241008
 
 npm: https://www.npmjs.com/~pd241008
 
-
+```
 
 Built with ❤️ for the Node.js 
 
