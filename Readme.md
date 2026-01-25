@@ -85,7 +85,7 @@ src/
 ├─ utils/             # Helper utilities
 └─ types/             # Shared TypeScript types
 ```
-
+```
 🛠️ Features
 TypeScript Native – Built for type safety from day one
 
@@ -96,6 +96,9 @@ Centralized Configuration – One place for env & app config
 Global Error Handling – No more async try/catch hell
 
 Bridge Architecture – Framework logic lives in .expresskit, your app stays clean
+```
+
+```
 
 🧭 Roadmap
 Phase 1: Core Framework ✅
@@ -120,7 +123,9 @@ Phase 3: Ecosystem 🚀
  API Gateway patterns
 
  Code generators (expresskit make:route)
+```
 
+```
 🤝 Contributing
 Contributions are welcome!
 
@@ -133,6 +138,8 @@ Commit your changes
 Push to your branch
 
 Open a Pull Request
+```
+
 
 👨‍💻 Author
 Prathmesh Desai
