@@ -3,7 +3,7 @@
 **The Opinionated Backend Starter for Express.js**
 
 [![npm version](https://img.shields.io/npm/v/@pd241008/expresskit.svg)](https://www.npmjs.com/package/@pd241008/expresskit)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: ISC](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/ISC)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 
 ---
