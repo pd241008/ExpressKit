@@ -68,6 +68,8 @@ Data / External APIs
   ↓
 Standardized Response
 ```
+
+```
 📁 Project Structure
 When you initialize a project, ExpressKit generates:
 
@@ -82,7 +84,7 @@ src/
 ├─ models/            # Database models
 ├─ utils/             # Helper utilities
 └─ types/             # Shared TypeScript types
-
+```
 
 🛠️ Features
 TypeScript Native – Built for type safety from day one
