@@ -22,40 +22,45 @@ Instead of starting every Express project by debating folder structures, configu
 
 ## 🚀 Quick Start
 
-Get a production-grade backend running in seconds using the CLI.
+You can use ExpressKit immediately without installing anything, or install it globally for frequent use.
 
-### Interactive Init (Recommended)
+### Option 1: Interactive Init (Recommended)
+
+No installation required. This ensures you always use the latest version:
 
 ````bash
 npx @pd241008/expresskit init
-Global Install (Optional)
-npm install -g @pd241008/expresskit
-expresskit init
-````
-
-🎯 Why ExpressKit?
-Every new Express project usually suffers from Decision Fatigue:
-
-Where do controllers go?
-
-How do I structure services?
-
-How should errors be handled?
-
-How do I manage environment config cleanly?
-
-ExpressKit solves this by enforcing battle-tested conventions.
+Option 2: Global Install
+Useful if you plan to generate many projects and want the command available everywhere:
 ```
+
+```
+npm install -g @pd241008/expresskit
+
+expresskit init
+`
+
+``
+🎯 Why ExpressKit?
+Every new Express project usually suffers from "Decision Fatigue":
+
+Where do controllers go? How do I structure services? How do I manage config?
+
+```
+ExpressKit solves this by enforcing battle-tested conventions:
 Feature	Standard Express	ExpressKit
 Project Structure	DIY / Empty Folder	Convention-based
-Architecture	Ad-hoc	Controller → Service
+Architecture	Ad-hoc	Unidirectional Flow
+Controller → Service	Optional	Enforced
 Config	process.env chaos	Centralized Config
 Language	JS / manual TS	TypeScript-first
 Error Handling	try/catch everywhere	Global Error Layer
 ```
-🏗️ High-Level Architecture
+
+
 ```
-ExpressKit enforces a strict unidirectional flow, making your backend predictable and scalable.
+🏗️ High-Level Architecture
+ExpressKit enforces a strict unidirectional flow, making your backend predictable and scalable:
 
 Request
   ↓
@@ -72,7 +77,7 @@ Standardized Response
 
 ```
 📁 Project Structure
-When you initialize a project, ExpressKit generates:
+When you initialize a project, ExpressKit generates this scalable structure:
 
 src/
 ├─ app.ts             # App bootstrap & middleware
@@ -86,46 +91,47 @@ src/
 ├─ utils/             # Helper utilities
 └─ types/             # Shared TypeScript types
 ```
-```
-🛠️ Features
-TypeScript Native – Built for type safety from day one
 
-Controller–Service Pattern – Clean separation of concerns
+```🛠️ Features
+TypeScript Native: Built for type safety from day one.
 
-Centralized Configuration – One place for env & app config
+Controller–Service Pattern: Clean separation of concerns.
 
-Global Error Handling – No more async try/catch hell
+Centralized Configuration: One place for env & app config.
 
-Bridge Architecture – Framework logic lives in .expresskit, your app stays clean
-```
+Global Error Handling: No more async try/catch hell.
 
+Bridge Architecture: Framework logic lives in .expresskit, keeping your app clean.
 ```
 
+```
 🧭 Roadmap
 Phase 1: Core Framework ✅
- CLI for rapid scaffolding (expresskit init)
 
- Standardized folder structure
+CLI for rapid scaffolding (expresskit init)
 
- Controller–Service architecture
+Standardized folder structure
 
- Centralized config system
+Controller–Service architecture
+
+Centralized config system
 
 Phase 2: Developer Experience 🚧
- Auth presets (JWT, Auth0)
 
- ORM integrations (Prisma, Mongoose)
+Auth presets (JWT, Auth0)
 
- Advanced logging (Winston, Pino)
+ORM integrations (Prisma, Mongoose)
+
+Advanced logging (Winston, Pino)
 
 Phase 3: Ecosystem 🚀
- Microservice mode
 
- API Gateway patterns
+Microservice mode
 
- Code generators (expresskit make:route)
+API Gateway patterns
+
+Code generators (expresskit make:route)
 ```
-
 ```
 🤝 Contributing
 Contributions are welcome!
@@ -141,15 +147,13 @@ Push to your branch
 Open a Pull Request
 ```
 
-
 👨‍💻 Author
 Prathmesh Desai
-```
-GitHub: https://github.com/pd241008
 
-npm: https://www.npmjs.com/~pd241008
+GitHub
 
-```
+NPM
 
-Built with ❤️ for the Node.js 
+<p align="center">Built with ❤️ for the Node.js Community</p>
 
+````

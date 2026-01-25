@@ -27,7 +27,7 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "inquirer": "^13.2.1",
+    "inquirer": "^8.2.7",
     "ora": "^9.1.0"
   },
   "devDependencies": {
