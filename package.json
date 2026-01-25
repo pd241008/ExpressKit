@@ -3,6 +3,16 @@
   "version": "1.3.2",
   "description": "Opinionated Express backend starter",
   "main": "dist/index.js",
+  "keywords": [
+    "express",
+    "expressjs",
+    "cli",
+    "scaffold",
+    "generator",
+    "backend",
+    "boilerplate"
+  ],
+  "author": "Prathmesh Desai",
   "bin": {
     "expresskit": "dist/index.js"
   },

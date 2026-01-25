@@ -1,286 +1,137 @@
-# ⚡ ExpressKit — Opinionated Backend Starter for Express
+# ⚡ ExpressKit
 
-**TypeScript · Production-Ready · Batteries Included**
+**The Opinionated Backend Starter for Express.js**
 
----
-
-## 📌 What Is ExpressKit?
-
-**ExpressKit** is an **opinionated backend starter package for Express**, designed to do for backend development **what Next.js does for frontend**.
-
-Instead of starting every project with:
-
-- Folder decisions
-- Auth setup
-- Config hell
-- Repeating middleware logic
-
-ExpressKit gives you a **structured, scalable, production-grade backend foundation out of the box**.
-
-> Think: Next.js for Express backends
+[![npm version](https://img.shields.io/npm/v/@pd241008/expresskit.svg)](https://www.npmjs.com/package/@pd241008/expresskit)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 
 ---
 
-## 🚀 Why ExpressKit Exists
+## 📌 What is ExpressKit?
 
-Express is powerful — but **too unopinionated**.
+**ExpressKit** is a production-ready, opinionated framework wrapper for Express.js.
 
-Every new backend project repeats:
+It aims to do for backend development **what Next.js did for frontend**.
 
-- Project structure debates
-- Middleware wiring
-- Environment setup
-- Error handling patterns
-- Auth + validation boilerplate
+Instead of starting every Express project by debating folder structures, configuring TypeScript, and wiring up boilerplate middleware, ExpressKit gives you a **structured, scalable foundation out of the box**.
 
-**ExpressKit solves this by providing conventions, not just utilities.**
+> **Philosophy:** Express is unopinionated. ExpressKit is opinionated so you don’t have to be.
 
 ---
 
-## 🎯 Goals of ExpressKit
+## 🚀 Quick Start
 
-- ✅ Enforce a clean, scalable backend structure
-- ✅ Provide production-ready defaults
-- ✅ Stay framework-light (still Express)
-- ✅ Be extensible, not restrictive
-- ✅ Feel like a _platform_, not a template
+Get a production-grade backend running in seconds using the CLI.
 
----
+### Interactive Init (Recommended)
 
-## 🧠 Philosophy (Inspired by Next.js)
+````bash
+npx @pd241008/expresskit init
+Global Install (Optional)
+npm install -g @pd241008/expresskit
+expresskit init
+🎯 Why ExpressKit?
+Every new Express project usually suffers from Decision Fatigue:
 
-| Next.js (Frontend)   | ExpressKit (Backend)         |
-| -------------------- | ---------------------------- |
-| File-based routing   | Convention-based routing     |
-| Built-in config      | Centralized config system    |
-| API routes           | Service-based controllers    |
-| Middleware pipeline  | Global + scoped middleware   |
-| Opinionated defaults | Opinionated backend patterns |
+Where do controllers go?
 
-> ExpressKit doesn’t hide Express — it organizes it.
+How do I structure services?
 
----
+How should errors be handled?
 
-## 🏗️ High-Level Architecture
+How do I manage environment config cleanly?
+
+ExpressKit solves this by enforcing battle-tested conventions.
+
+Feature	Standard Express	ExpressKit
+Project Structure	DIY / Empty Folder	Convention-based
+Architecture	Ad-hoc	Controller → Service
+Config	process.env chaos	Centralized Config
+Language	JS / manual TS	TypeScript-first
+Error Handling	try/catch everywhere	Global Error Layer
+🏗️ High-Level Architecture
+ExpressKit enforces a strict unidirectional flow, making your backend predictable and scalable.
 
 Request
-↓
-Global Middleware
-↓
-Route Resolver
-↓
-Controller
-↓
-Service Layer
-↓
+  ↓
+Global Middleware (Auth / Validation)
+  ↓
+Controller (HTTP Layer – No Business Logic)
+  ↓
+Service (Business Logic Layer)
+  ↓
 Data / External APIs
-↓
+  ↓
 Standardized Response
-
-Everything follows **one predictable flow**, across every project.
-
----
-
-## 📁 Standardized Project Structure
+📁 Project Structure
+When you initialize a project, ExpressKit generates:
 
 src/
-├─ app.ts # App bootstrap
-├─ server.ts # Server entry
-├─ config/ # Environment & app config
-├─ routes/ # Route definitions
-├─ controllers/ # Request handlers
-├─ services/ # Business logic
-├─ middlewares/ # Global & scoped middleware
-├─ validators/ # Request validation
-├─ utils/ # Helpers
-├─ libs/ # DB, cache, external services
-├─ types/ # Shared TypeScript types
-└─ errors/ # Centralized error handling
+├─ app.ts             # App bootstrap & middleware
+├─ server.ts          # Server entry point
+├─ config/            # Centralized environment config
+├─ routes/            # Route definitions
+├─ controllers/       # Request handlers (I/O only)
+├─ services/          # Business logic
+├─ middleware/        # Custom Express middleware
+├─ models/            # Database models
+├─ utils/             # Helper utilities
+└─ types/             # Shared TypeScript types
+🛠️ Features
+TypeScript Native – Built for type safety from day one
 
-> This structure scales from MVP → startup → enterprise.
+Controller–Service Pattern – Clean separation of concerns
 
----
+Centralized Configuration – One place for env & app config
 
-## 🚦 Routing Convention
+Global Error Handling – No more async try/catch hell
 
-Instead of messy route files, ExpressKit enforces:
+Bridge Architecture – Framework logic lives in .expresskit, your app stays clean
 
-- Thin controllers
-- No business logic in routes
-- Clear separation of concerns
+🧭 Roadmap
+Phase 1: Core Framework ✅
+ CLI for rapid scaffolding (expresskit init)
 
-routes/
-└─ user.routes.ts
-controllers/
-└─ user.controller.ts
-services/
-└─ user.service.ts
+ Standardized folder structure
 
----
+ Controller–Service architecture
 
-## 🔐 Authentication (Pluggable by Design)
+ Centralized config system
 
-ExpressKit does **not hard-lock you** into one auth provider.
+Phase 2: Developer Experience 🚧
+ Auth presets (JWT, Auth0)
 
-Supported / Planned:
+ ORM integrations (Prisma, Mongoose)
 
-- JWT
-- Auth0
-- OAuth
-- Session-based auth
+ Advanced logging (Winston, Pino)
 
-### Why?
+Phase 3: Ecosystem 🚀
+ Microservice mode
 
-Because real products **change auth strategies over time**.
+ API Gateway patterns
 
----
+ Code generators (expresskit make:route)
 
-## ⚙️ Built-In Middleware Stack
+🤝 Contributing
+Contributions are welcome!
 
-Out of the box:
+Fork the repository
 
-- Request logging
-- Centralized error handling
-- Async error safety
-- Validation middleware
-- Auth guards
-- Rate limiting (optional)
+Create a feature branch
 
-All middleware follows a **consistent contract**.
+Commit your changes
 
----
+Push to your branch
 
-## 🧪 Validation & Type Safety
+Open a Pull Request
 
-ExpressKit is **TypeScript-first**.
+👨‍💻 Author
+Prathmesh Desai
 
-- Shared request/response types
-- Centralized validation layer
-- Safer refactors
-- Fewer runtime bugs
+GitHub: https://github.com/pd241008
 
-> Your API contracts become part of your codebase, not documentation.
+npm: https://www.npmjs.com/~pd241008
 
----
-
-## ⚙️ Configuration System
-
-A single source of truth for:
-
-- Environment variables
-- App settings
-- Feature flags
-- Service configs
-
-No more `process.env` scattered everywhere.
-
----
-
-## 🧱 Error Handling (One Way, Everywhere)
-
-- Centralized error classes
-- Predictable error responses
-- Environment-aware stack traces
-- Clean API error format
-
-Every service behaves the same — no surprises.
-
----
-
-## 🌍 Deployment-Ready by Default
-
-ExpressKit is designed to run on:
-
-### 🔹 Railway / Render
-
-- Backend-first hosting
-- Easy environment config
-- Auto restarts
-
-### 🔹 Docker
-
-- Local = production parity
-- CI/CD ready
-- Kubernetes-friendly
-
-> You don’t need to “prepare for deployment” — it already is.
-
----
-
-## 📊 Observability (Planned First-Class Feature)
-
-Designed to integrate with:
-
-- Grafana
-- Prometheus
-- OpenTelemetry
-- Winston / Pino logging
-
-Monitoring is **part of the system**, not an afterthought.
-
----
-
-## 🛠️ Tech Stack
-
-- Express
-- TypeScript
-- Node.js
-- Zod / Joi (validation)
-- ESLint + Prettier
-- Docker
-
----
-
-## 🧭 Roadmap
-
-### Phase 1 — Core Framework ✅
-
-- [x] Standard project structure
-- [x] Controller–Service pattern
-- [x] Centralized config
-- [x] Error handling system
-
-### Phase 2 — Developer Experience 🚧
-
-- [ ] CLI (`create-expresskit-app`)
-- [ ] Code generators
-- [ ] Auth presets
-- [ ] Logging presets
-
-### Phase 3 — Advanced 🚀
-
-- [ ] Async job support
-- [ ] Microservice presets
-- [ ] API Gateway mode
-- [ ] Plugin ecosystem
-
----
-
-## 🧠 Who Is ExpressKit For?
-
-- Backend developers tired of boilerplate
-- Teams building scalable APIs
-- Startups shipping fast but clean
-- Developers who like **structure without magic**
-
----
-
-## 🔥 What Makes ExpressKit Different
-
-- Not a template — a **framework mindset**
-- Opinionated but flexible
-- Scales with your product
-- Backend-first philosophy
-- Designed like real production systems
-
----
-
-## 👨‍💻 Author
-
-**Prathmesh Desai**
-
-AI Systems Engineer · Full-Stack Developer
-
----
-
-> ExpressKit aims to become the default starting point for serious Express backends, just like Ne
+<p align="center">Built with ❤️ for the Node.js community</p> ```
+````
