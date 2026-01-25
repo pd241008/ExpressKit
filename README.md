@@ -131,7 +131,7 @@ Phase 3: Ecosystem 🚀
 [ ] Code generators (expresskit make:route)
 ```
 🤝 Contributing
-
+```
 Contributions are welcome!
 
 Fork the repository
@@ -143,12 +143,14 @@ Commit your changes
 Push to your branch
 
 Open a Pull Request
-
+```
 👨‍💻 Author
+```
 Prathmesh Desai
-
+```
+```
 GitHub
 
 NPM
-
+```
 <p align="center"> Built with ❤️ for the Node.js Community </p>
