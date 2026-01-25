@@ -133,5 +133,7 @@ GitHub: https://github.com/pd241008
 
 npm: https://www.npmjs.com/~pd241008
 
-````<p align="center">Built with ❤️ for the Node.js community</p> ```
+
+
+Built with ❤️ for the Node.js 
 
