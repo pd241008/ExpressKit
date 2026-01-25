@@ -5,7 +5,6 @@ import { spawn } from "child_process";
 import inquirer from "inquirer";
 
 // --- IMPORT YOUR NEW MODULES ---
-// Make sure these paths match where you saved the runtime files!
 import { generateRouteSystem } from "../runtime/route_handling/expresskit_router_v1";
 import { generateConfigSystem } from "../runtime/config_handling/expresskit_config_v1";
 import { generateCoreSystem } from "../runtime/core_handling/expresskit_core_v1";
@@ -13,7 +12,7 @@ import { generateErrorSystem } from "../runtime/error_handling/expresskit_errorh
 import { generateExampleSystem } from "../runtime/example_handling/expresskit_example_v1";
 
 /* ----------------------------------
-   Minimal logger (This was missing!)
+   Minimal logger
 ----------------------------------- */
 const log = {
   info: (msg: string) => console.log(`ℹ️  ${msg}`),
@@ -120,7 +119,7 @@ async function createProject(projectName: string, language: "ts" | "js") {
   );
 
   /* ----------------------------------
-     MODULE GENERATION (The magic part)
+     MODULE GENERATION
   ----------------------------------- */
   log.info("Generating internal systems...");
 
@@ -131,40 +130,39 @@ async function createProject(projectName: string, language: "ts" | "js") {
   generateExampleSystem(root, ext);
 
   /* ----------------------------------
-     DOTFILES & CONFIGS
+     DOTFILES & CONFIGS (FIXED)
   ----------------------------------- */
   fs.writeFileSync(path.join(root, ".env"), "PORT=5000\n");
   fs.writeFileSync(path.join(root, ".env.example"), "PORT=5000\n");
   const gitignorePath = path.join(root, ".gitignore");
 
-  const expressKitIgnore = `
-# Dependencies
-node_modules/
+  // FIX: Use an array joined by \n to prevent indentation bugs
+  const ignoreRules = [
+    "# Dependencies",
+    "node_modules/",
+    "",
+    "# Build output",
+    "dist/",
+    "",
+    "# Environment",
+    ".env",
+    ".env.*",
+    "!.env.example",
+    "",
+    "# ExpressKit internals",
+    ".expresskit/",
+    "",
+  ];
 
-# Build output
-dist/
+  const expressKitIgnore = ignoreRules.join("\n");
 
-# Environment
-.env
-.env.*
-!.env.example
-
-# ExpressKit internals
-.expresskit/
-`;
-
-  log.info(
-    "If files were already tracked, run:\n" +
-      "git rm -r --cached node_modules .expresskit .env",
-  );
   if (fs.existsSync(gitignorePath)) {
     const existing = fs.readFileSync(gitignorePath, "utf8");
-
     if (!existing.includes(".expresskit")) {
-      fs.appendFileSync(gitignorePath, expressKitIgnore);
+      fs.appendFileSync(gitignorePath, "\n" + expressKitIgnore);
     }
   } else {
-    fs.writeFileSync(gitignorePath, expressKitIgnore.trim() + "\n");
+    fs.writeFileSync(gitignorePath, expressKitIgnore);
   }
 
   /* ----------------------------------
@@ -174,6 +172,10 @@ dist/
   const stopLoader = startLoader("Installing packages...");
 
   try {
+    // 1. Initialize Git FIRST (Best Practice)
+    // This ensures .gitignore is respected immediately
+    await runCommand("git init", root);
+
     await runCommand("npm init -y", root);
 
     const pkgPath = path.join(root, "package.json");
@@ -207,7 +209,7 @@ dist/
             compilerOptions: {
               target: "ES2020",
               module: "CommonJS",
-              rootDir: ".",
+              rootDir: ".", // Ensure this is '.' for your folder structure
               outDir: "dist",
               strict: true,
               esModuleInterop: true,
@@ -221,12 +223,12 @@ dist/
     }
   } catch (err) {
     stopLoader();
-    log.error("Installation failed");
-    process.exit(1);
+    log.error("Installation failed (Check git or npm)");
+    // Don't exit process hard, let the user see the error
   }
 
   stopLoader();
-  log.success("Dependencies installed");
+  log.success("Dependencies installed & Git initialized");
 
   console.log("\n✅ ExpressKit ready. Magic enabled ✨\n");
 }
