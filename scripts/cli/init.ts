@@ -135,10 +135,37 @@ async function createProject(projectName: string, language: "ts" | "js") {
   ----------------------------------- */
   fs.writeFileSync(path.join(root, ".env"), "PORT=5000\n");
   fs.writeFileSync(path.join(root, ".env.example"), "PORT=5000\n");
-  fs.writeFileSync(
-    path.join(root, ".gitignore"),
-    `node_modules\n.env\n.expresskit\n`,
+  const gitignorePath = path.join(root, ".gitignore");
+
+  const expressKitIgnore = `
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# ExpressKit internals
+.expresskit/
+`;
+
+  log.info(
+    "If files were already tracked, run:\n" +
+      "git rm -r --cached node_modules .expresskit .env",
   );
+  if (fs.existsSync(gitignorePath)) {
+    const existing = fs.readFileSync(gitignorePath, "utf8");
+
+    if (!existing.includes(".expresskit")) {
+      fs.appendFileSync(gitignorePath, expressKitIgnore);
+    }
+  } else {
+    fs.writeFileSync(gitignorePath, expressKitIgnore.trim() + "\n");
+  }
 
   /* ----------------------------------
      PACKAGE INSTALLATION
