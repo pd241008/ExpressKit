@@ -105,6 +105,7 @@ Bridge Architecture: Framework logic lives in .expresskit, keeping your app clea
 
 🧭 Roadmap
 Phase 1: Core Framework ✅
+```
 [x] CLI for rapid scaffolding (expresskit init)
 
 [x] Standardized folder structure
@@ -112,22 +113,25 @@ Phase 1: Core Framework ✅
 [x] Controller–Service architecture
 
 [x] Centralized config system
-
+```
 Phase 2: Developer Experience 🚧
+```
 [ ] Auth presets (JWT, Auth0)
 
 [ ] ORM integrations (Prisma, Mongoose)
 
 [ ] Advanced logging (Winston, Pino)
-
+```
 Phase 3: Ecosystem 🚀
+```
 [ ] Microservice mode
 
 [ ] API Gateway patterns
 
 [ ] Code generators (expresskit make:route)
-
+```
 🤝 Contributing
+
 Contributions are welcome!
 
 Fork the repository
