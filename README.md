@@ -43,11 +43,13 @@ expresskit init
 ```
 
 🎯 Why ExpressKit?
+```
 Every new Express project usually suffers from "Decision Fatigue": Where do controllers go? How do I structure services? How do I manage config?
 
 ExpressKit solves this by enforcing battle-tested conventions.
+```
 
----
+```
 
 |Feature |Standard Express|ExpressKit |
 |Project Structure,DIY |Empty Folder |Convention-based |
@@ -56,7 +58,7 @@ ExpressKit solves this by enforcing battle-tested conventions.
 |Language |JS |manual TS,TypeScript-first |
 |Error Handling | |try/catch everywhere,Global Error Layer |
 
----
+```
 
 🏗️ High-Level Architecture
 ExpressKit enforces a strict unidirectional flow, making your backend predictable and scalable.
