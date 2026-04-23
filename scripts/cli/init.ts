@@ -55,15 +55,7 @@ function runCommand(command: string, cwd: string) {
 export async function run() {
   const args = process.argv.slice(2);
 
-  if (args[0] !== "init") {
-    console.log(`
-ExpressKit – Opinionated Backend Starter
 
-Usage:
-  expresskit init
-`);
-    return;
-  }
 
   const { projectName, language } = await inquirer.prompt([
     {
@@ -184,13 +176,14 @@ async function createProject(projectName: string, language: "ts" | "js") {
     pkg.scripts = {
       dev: isTS ? "nodemon src/server.ts" : "nodemon src/server.js",
       start: isTS ? "node dist/server.js" : "node src/server.js",
+      postinstall: "npx @pd241008/expresskit sync",
       ...(isTS ? { build: "tsc" } : {}),
     };
 
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
 
     await runCommand(
-      "npm install express cors dotenv morgan --no-fund --no-audit",
+      "npm install express cors dotenv morgan zod --no-fund --no-audit",
       root,
     );
 
