@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import { run } from "./init";
+import { run as init } from "./init";
+import { run as sync } from "./sync";
 
 const args = process.argv.slice(2);
 
@@ -20,6 +21,10 @@ or (recommended):
 
   npm create expresskit
 
+👉 To regenerate bridge files (if missing after cloning):
+
+  npx @pd241008/expresskit sync
+
 Optional global install:
 
   npm install -g @pd241008/expresskit
@@ -28,4 +33,14 @@ Optional global install:
   process.exit(0);
 }
 
-run();
+const command = args[0];
+
+if (command === "init") {
+  init();
+} else if (command === "sync" || command === "build-bridge") {
+  sync();
+} else {
+  console.error(`❌ Unknown command: ${command}`);
+  console.log(`Available commands: init, sync`);
+  process.exit(1);
+}
