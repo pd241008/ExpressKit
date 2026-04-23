@@ -8,7 +8,7 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 /**
  * Generates the v1 Error Handling System.
- * Creates: .expresskit/error_handling/handler.ts
+ * Creates: .expresskit/error_handling/handler.ts, AppError.ts, catchAsync.ts
  */
 function generateErrorSystem(root, ext) {
     // 1. Create the hidden folder inside .expresskit
@@ -16,6 +16,27 @@ function generateErrorSystem(root, ext) {
     if (!fs_1.default.existsSync(errorDir))
         fs_1.default.mkdirSync(errorDir, { recursive: true });
     // 2. The Content (Your custom logic)
+    const appErrorContent = `export class AppError extends Error {
+  public statusCode: number;
+  public isOperational: boolean;
+
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.statusCode = statusCode;
+    this.isOperational = true;
+
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+`;
+    const catchAsyncContent = `import { Request, Response, NextFunction } from "express";
+
+export const catchAsync = (fn: Function) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
+};
+`;
     const errorHandlerContent = `import { Request, Response, NextFunction } from "express";
 
 /**
@@ -28,6 +49,23 @@ export function errorHandler(
   res: Response,
   _next: NextFunction,
 ): void {
+  if (err.name === 'ZodError') {
+    const zodIssues = err.issues || err.errors || [];
+    const formattedErrors = zodIssues.map((e: any) => ({
+      field: e.path.join('.'),
+      message: e.message,
+    }));
+
+    res.status(400).json({
+      success: false,
+      error: {
+        message: "Validation Error",
+        details: formattedErrors,
+      },
+    });
+    return;
+  }
+
   const status = err.status || err.statusCode || 500;
 
   const payload = {
@@ -46,6 +84,8 @@ export function errorHandler(
   res.status(status).json(payload);
 }
 `;
-    // 3. Write the file
+    // 3. Write the files
+    fs_1.default.writeFileSync(path_1.default.join(errorDir, `AppError.${ext}`), appErrorContent);
+    fs_1.default.writeFileSync(path_1.default.join(errorDir, `catchAsync.${ext}`), catchAsyncContent);
     fs_1.default.writeFileSync(path_1.default.join(errorDir, `handler.${ext}`), errorHandlerContent);
 }
