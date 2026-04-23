@@ -2,6 +2,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const init_1 = require("./init");
+const sync_1 = require("./sync");
 const args = process.argv.slice(2);
 /* ----------------------------------
    Safety Net (UX Guard)
@@ -20,6 +21,10 @@ or (recommended):
 
   npm create expresskit
 
+👉 To regenerate bridge files (if missing after cloning):
+
+  npx @pd241008/expresskit sync
+
 Optional global install:
 
   npm install -g @pd241008/expresskit
@@ -27,4 +32,15 @@ Optional global install:
 `);
     process.exit(0);
 }
-(0, init_1.run)();
+const command = args[0];
+if (command === "init") {
+    (0, init_1.run)();
+}
+else if (command === "sync" || command === "build-bridge") {
+    (0, sync_1.run)();
+}
+else {
+    console.error(`❌ Unknown command: ${command}`);
+    console.log(`Available commands: init, sync`);
+    process.exit(1);
+}

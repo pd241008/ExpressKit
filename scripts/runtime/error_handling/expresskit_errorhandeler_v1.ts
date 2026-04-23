@@ -47,7 +47,8 @@ export function errorHandler(
   _next: NextFunction,
 ): void {
   if (err.name === 'ZodError') {
-    const formattedErrors = err.errors.map((e: any) => ({
+    const zodIssues = err.issues || err.errors || [];
+    const formattedErrors = zodIssues.map((e: any) => ({
       field: e.path.join('.'),
       message: e.message,
     }));
