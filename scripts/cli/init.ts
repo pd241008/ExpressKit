@@ -10,6 +10,7 @@ import { generateConfigSystem } from "../runtime/config_handling/expresskit_conf
 import { generateCoreSystem } from "../runtime/core_handling/expresskit_core_v1";
 import { generateErrorSystem } from "../runtime/error_handling/expresskit_errorhandeler_v1";
 import { generateExampleSystem } from "../runtime/example_handling/expresskit_example_v1";
+import { generateReadMe } from "../docs/readme_config_v1";
 
 /* ----------------------------------
    Minimal logger
@@ -120,6 +121,7 @@ async function createProject(projectName: string, language: "ts" | "js") {
   generateErrorSystem(root, ext);
   generateCoreSystem(root, ext);
   generateExampleSystem(root, ext);
+  generateReadMe(root);
 
   /* ----------------------------------
      DOTFILES & CONFIGS (FIXED)
