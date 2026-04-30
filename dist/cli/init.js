@@ -15,6 +15,7 @@ const expresskit_config_v1_1 = require("../runtime/config_handling/expresskit_co
 const expresskit_core_v1_1 = require("../runtime/core_handling/expresskit_core_v1");
 const expresskit_errorhandeler_v1_1 = require("../runtime/error_handling/expresskit_errorhandeler_v1");
 const expresskit_example_v1_1 = require("../runtime/example_handling/expresskit_example_v1");
+const readme_config_v1_1 = require("../docs/readme_config_v1");
 /* ----------------------------------
    Minimal logger
 ----------------------------------- */
@@ -110,6 +111,7 @@ async function createProject(projectName, language) {
     (0, expresskit_errorhandeler_v1_1.generateErrorSystem)(root, ext);
     (0, expresskit_core_v1_1.generateCoreSystem)(root, ext);
     (0, expresskit_example_v1_1.generateExampleSystem)(root, ext);
+    (0, readme_config_v1_1.generateReadMe)(root);
     /* ----------------------------------
        DOTFILES & CONFIGS (FIXED)
     ----------------------------------- */
