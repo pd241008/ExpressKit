@@ -1,6 +1,6 @@
 {
   "name": "@pd241008/expresskit",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Opinionated Express backend starter",
   "bin": {
     "expresskit": "dist/cli/index.js"
